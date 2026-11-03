@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#15251d">
+<title>Daily Deals Zimbabwe</title>
+<style>
+:root {
+  --site-primary: #e9b949;
+  --site-on-primary: #1d241d;
+  --site-secondary: #183b2b;
+  --site-on-secondary: #ffffff;
+  --site-background: #f5f4ef;
+  --site-on-background: #202820;
+  --site-font-body: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --site-font-heading: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --site-heading-scale: 1;
+  --site-spacing-scale: 1;
+  --site-radius-scale: 1;
+  --site-decoration-opacity: 1;
+  --surface: light-dark(#ffffff, #202923);
+  --surface-soft: light-dark(#eeeee7, #29352e);
+  --text: light-dark(#202820, #f3f5ef);
+  --muted: light-dark(#68736a, #b1bdb3);
+  --line: light-dark(#e2e4dc, #3b493f);
+  --green: #183b2b;
+  --gold: #e9b949;
+  --red: #b84b3d;
+}
+* { box-sizing: border-box; }
+html { color-scheme: light dark; }
+body { margin: 0; background: var(--site-background); color: var(--text); font-family: var(--site-font-body); }
+button, input, select, textarea { font: inherit; }
+button { cursor: pointer; }
+.app-root { min-height: 100vh; width: 100%; background-color: var(--site-background); color: var(--site-on-background); border-radius: 0; overflow: hidden; }
+.container { width: min(1160px, calc(100% - 40px)); margin: 0 auto; }
+.topbar { background: var(--site-secondary); color: var(--site-on-secondary); }
+.topbar-inner { min-height: 42px; display: flex; justify-content: space-between; align-items: center; gap: 14px; font-size: 12px; color: #e6eee7; }
+.topbar a { color: inherit; text-decoration: none; }
+.nav-wrap { background: var(--site-secondary); color: white; border-top: 1px solid #ffffff20; }
+.nav { min-height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+.brand { display: flex; align-items: center; gap: 11px; color: white; text-decoration: none; min-width: 220px; }
+.brand-mark { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 13px; background: var(--site-primary); color: #17251c; font-size: 21px; font-weight: 900; }
+.brand-name { font-weight: 850; letter-spacing: -.6px; line-height: 1.05; font-size: 17px; }
+.brand-name small { display: block; color: #c5d3c8; font-size: 10px; letter-spacing: 1.7px; margin-top: 5px; font-weight: 700; }
+.nav-links { display: flex; align-items: center; gap: 25px; }
+.nav-links a { color: #e3ece5; text-decoration: none; font-size: 13px; font-weight: 650; }
+.nav-actions { display: flex; align-items: center; gap: 10px; }
+.btn { border: 0; border-radius: calc(12px * var(--site-radius-scale)); padding: 12px 17px; font-weight: 750; font-size: 13px; transition: transform .15s, filter .15s; }
+.btn:hover { transform: translateY(-1px); filter: brightness(1.04); }
+.btn-gold { background: var(--site-primary); color: var(--site-on-primary); }
+.btn-outline { background: transparent; color: white; border: 1px solid #ffffff55; }
+.menu-btn { display: none; background: transparent; color: white; border: 1px solid #ffffff55; border-radius: 10px; padding: 9px 11px; }
+.hero { background: radial-gradient(ellipse at 80% 0%, #d5a43c44, transparent 35%), var(--site-secondary); color: white; padding: 56px 0 66px; position: relative; }
+.hero:after { content: ""; position: absolute; width: 330px; height: 330px; right: -100px; bottom: -190px; border: 1px solid #ffffff20; border-radius: 50%; opacity: var(--site-decoration-opacity); pointer-events: none; }
+.hero-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 48px; align-items: center; }
+.eyebrow { color: var(--site-primary); text-transform: uppercase; letter-spacing: 2px; font-weight: 850; font-size: 11px; }
+h1 { font-family: var(--site-font-heading); font-size: calc(52px * var(--site-heading-scale)); line-height: 1.04; letter-spacing: -2.4px; margin: 14px 0 17px; max-width: 630px; }
+.hero p { color: #d4e0d7; line-height: 1.7; font-size: 15px; max-width: 520px; margin: 0 0 25px; }
+.search-panel { background: white; border-radius: calc(16px * var(--site-radius-scale)); padding: 8px; display: flex; gap: 8px; max-width: 590px; box-shadow: 0 15px 40px #06150d35; }
+.search-panel input { flex: 1; min-width: 0; border: 0; outline: 0; color: #1d2b22; padding: 10px 12px; font-size: 13px; background: transparent; }
+.search-panel button { white-space: nowrap; }
+.hero-note { color: #b9cabe; font-size: 11px; margin-top: 13px; }
+.hero-visual { position: relative; min-height: 275px; display: grid; place-items: center; }
+.deal-stack { width: min(100%, 390px); position: relative; }
+.feature-deal { background: #fff; color: #202820; border-radius: 22px; padding: 20px; transform: rotate(-2deg); box-shadow: 0 25px 65px #07160d55; }
+.feature-top { display: flex; justify-content: space-between; align-items: center; font-size: 11px; font-weight: 800; color: #657067; }
+.feature-art { margin: 17px 0; height: 145px; border-radius: 15px; display: grid; place-items: center; background: linear-gradient(135deg, #e9ebdd, #dce8d8); font-size: 72px; }
+.feature-deal h3 { margin: 0 0 6px; font-size: 18px; }
+.feature-deal p { margin: 0; color: #6b756d; font-size: 12px; }
+.price-row { display: flex; justify-content: space-between; align-items: center; margin-top: 17px; }
+.price { font-size: 22px; font-weight: 900; color: #183b2b; }
+.old-price { text-decoration: line-through; color: #8a938b; font-size: 12px; margin-left: 7px; }
+.discount { background: #f9e9b8; color: #75510a; padding: 7px 10px; border-radius: 8px; font-size: 11px; font-weight: 900; }
+.float-tag { position: absolute; background: var(--site-primary); color: #1c2a20; padding: 12px 15px; border-radius: 12px; font-weight: 850; font-size: 12px; right: -12px; bottom: 9px; transform: rotate(4deg); box-shadow: 0 10px 24px #0002; }
+.trust-strip { background: var(--surface); border-bottom: 1px solid var(--line); }
+.trust-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; padding: 20px 0; }
+.trust-item { display: flex; align-items: center; gap: 11px; color: var(--text); font-size: 12px; font-weight: 750; }
+.trust-icon { width: 35px; height: 35px; display: grid; place-items: center; border-radius: 11px; background: #e9f0e9; color: #214a33; font-size: 17px; }
+main { padding: 44px 0 70px; }
+.section-head { display: flex; align-items: end; justify-content: space-between; gap: 20px; margin-bottom: 21px; }
+.section-head h2 { font-size: calc(26px * var(--site-heading-scale)); letter-spacing: -.8px; margin: 7px 0 0; color: var(--text); }
+.section-head p { margin: 6px 0 0; font-size: 12px; color: var(--muted); }
+.text-link { border: 0; background: none; color: #376346; font-size: 12px; font-weight: 850; padding: 8px 0; }
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+.chip { border: 1px solid var(--line); background: var(--surface); color: var(--muted); border-radius: 999px; padding: 9px 14px; font-size: 11px; font-weight: 750; }
+.chip.active { background: var(--site-secondary); color: white; border-color: var(--site-secondary); }
+.toolbar { display: flex; justify-content: space-between; gap: 12px; align-items: center; margin-bottom: 18px; }
+.toolbar label { color: var(--muted); font-size: 11px; }
+.toolbar select { background: var(--surface); color: var(--text); border: 1px solid var(--line); border-radius: 9px; padding: 9px 12px; font-size: 11px; }
+.deal-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.deal-card { background: var(--surface); border: 1px solid var(--line); border-radius: calc(16px * var(--site-radius-scale)); overflow: hidden; transition: transform .18s, box-shadow .18s; }
+.deal-card:hover { transform: translateY(-3px); box-shadow: 0 12px 28px #13251a12; }
+.deal-image { height: 160px; display: grid; place-items: center; position: relative; font-size: 55px; background: var(--surface-soft); }
+.deal-image .category-label { position: absolute; left: 11px; top: 11px; background: #ffffffdf; color: #314438; border-radius: 6px; padding: 5px 8px; font-size: 9px; font-weight: 850; }
+.heart { position: absolute; right: 10px; top: 9px; width: 30px; height: 30px; border: 0; border-radius: 50%; background: #ffffffeb; color: #425047; font-size: 16px; }
+.heart.saved { color: #c64e49; }
+.deal-content { padding: 14px; }
+.seller { color: var(--muted); font-size: 10px; font-weight: 700; margin-bottom: 7px; }
+.deal-content h3 { color: var(--text); font-size: 14px; margin: 0 0 7px; line-height: 1.35; min-height: 38px; }
+.location { color: var(--muted); font-size: 10px; margin-bottom: 12px; }
+.deal-price-line { display: flex; align-items: baseline; flex-wrap: wrap; gap: 5px; }
+.deal-price { font-weight: 900; font-size: 17px; color: var(--text); }
+.deal-old { color: var(--muted); font-size: 10px; text-decoration: line-through; }
+.deal-bottom { display: flex; align-items: center; justify-content: space-between; margin-top: 13px; padding-top: 11px; border-top: 1px solid var(--line); }
+.deal-bottom span { font-size: 9px; color: var(--muted); }
+.view-deal { border: 0; background: transparent; color: #376346; font-size: 10px; font-weight: 900; padding: 5px 0; }
+.demo-note { margin-top: 18px; border: 1px dashed #c7c9bd; border-radius: 10px; padding: 12px 14px; color: var(--muted); font-size: 10px; line-height: 1.55; }
+.empty { grid-column: 1/-1; text-align: center; padding: 45px 20px; color: var(--muted); background: var(--surface); border: 1px dashed var(--line); border-radius: 14px; }
+.province-band { margin-top: 58px; background: #e9eee7; border-radius: 20px; padding: 28px; color: #213c2b; }
+.province-band h2 { margin: 0 0 8px; font-size: 22px; letter-spacing: -.5px; }
+.province-band p { margin: 0 0 18px; color: #637467; font-size: 12px; }
+.province-list { display: flex; flex-wrap: wrap; gap: 8px; }
+.province-pill { border: 1px solid #cbd7cb; background: #f7f9f5; color: #375540; border-radius: 999px; padding: 8px 12px; font-size: 10px; font-weight: 800; }
+.seller-cta { margin-top: 48px; background: var(--site-secondary); color: white; border-radius: 20px; padding: 30px; display: flex; justify-content: space-between; align-items: center; gap: 25px; }
+.seller-cta h2 { margin: 0 0 8px; font-size: 23px; }
+.seller-cta p { margin: 0; color: #c8d7cc; font-size: 12px; line-height: 1.6; max-width: 580px; }
+footer { background: #10251a; color: #dce7de; padding: 34px 0; }
+.footer-grid { display: flex; justify-content: space-between; gap: 30px; align-items: start; }
+footer p { color: #aebfb2; font-size: 11px; line-height: 1.7; max-width: 390px; }
+.footer-links { display: flex; gap: 18px; flex-wrap: wrap; }
+.footer-links a { color: #dce7de; font-size: 11px; text-decoration: none; }
+.copyright { border-top: 1px solid #ffffff20; margin-top: 25px; padding-top: 17px; color: #8fa596; font-size: 10px; }
+.modal-backdrop { position: fixed; inset: 0; z-index: 20; background: #07150dcc; display: none; align-items: center; justify-content: center; padding: 18px; }
+.modal-backdrop.open { display: flex; }
+.modal { width: min(520px, 100%); max-height: 90vh; overflow: auto; background: var(--surface); color: var(--text); border-radius: 18px; padding: 24px; box-shadow: 0 25px 80px #0005; }
+.modal-head { display: flex; justify-content: space-between; align-items: center; gap: 15px; margin-bottom: 18px; }
+.modal-head h2 { font-size: 20px; margin: 0; }
+.close { border: 0; background: var(--surface-soft); color: var(--text); border-radius: 50%; width: 32px; height: 32px; font-size: 18px; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 13px; }
+.field.full { grid-column: 1/-1; }
+.field label { color: var(--muted); font-size: 11px; font-weight: 750; }
+.field input, .field select, .field textarea { width: 100%; border: 1px solid var(--line); background: var(--surface); color: var(--text); border-radius: 9px; padding: 11px; font-size: 12px; outline-color: var(--site-primary); }
+.field textarea { min-height: 75px; resize: vertical; }
+.form-hint { font-size: 10px; color: var(--muted); line-height: 1.5; margin: 8px 0 15px; }
+.toast { position: fixed; bottom: 22px; left: 50%; transform: translate(-50%, 20px); opacity: 0; pointer-events: none; z-index: 30; background: #183b2b; color: white; border-radius: 10px; padding: 12px 17px; font-size: 12px; font-weight: 750; transition: .2s; box-shadow: 0 10px 30px #0003; }
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+@media (max-width: 900px) { .deal-grid { grid-template-columns: repeat(2, 1fr); } .hero-grid { gap: 25px; } h1 { font-size: calc(43px * var(--site-heading-scale)); } .nav-links { gap: 14px; } }
+@media (max-width: 650px) { .container { width: min(100% - 28px, 520px); } .topbar-inner { justify-content: center; } .topbar-inner span:last-child { display: none; } .nav { min-height: 66px; } .nav-links, .nav-actions .btn-outline { display: none; } .menu-btn { display: block; } .nav-links.mobile-open { display: flex; position: absolute; z-index: 10; top: 108px; left: 0; right: 0; background: #183b2b; padding: 18px 22px; flex-direction: column; align-items: start; border-top: 1px solid #ffffff22; } .hero { padding: 42px 0 45px; } .hero-grid { grid-template-columns: 1fr; } h1 { font-size: calc(40px * var(--site-heading-scale)); letter-spacing: -1.7px; } .hero-visual { min-height: 245px; margin-top: 5px; } .feature-deal { max-width: 340px; margin: auto; } .feature-art { height: 115px; } .float-tag { right: 0; } .trust-grid { grid-template-columns: 1fr; gap: 12px; padding: 16px 0; } main { padding-top: 34px; } .section-head { align-items: start; } .section-head h2 { font-size: calc(23px * var(--site-heading-scale)); } .deal-grid { gap: 10px; } .deal-image { height: 120px; font-size: 43px; } .deal-content { padding: 11px; } .deal-content h3 { font-size: 12px; min-height: 34px; } .deal-price { font-size: 15px; } .province-band { padding: 21px; margin-top: 40px; } .seller-cta { padding: 23px; flex-direction: column; align-items: start; margin-top: 35px; } .footer-grid { flex-direction: column; } .form-grid { grid-template-columns: 1fr; } .field.full { grid-column: auto; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: .01ms !important; } }
+</style>
+</head>
+<body>
+<div class="app-root" id="appRoot">
+  <div class="topbar"><div class="container topbar-inner"><span>🇿🇼 Deals and special offers from across Zimbabwe</span><span>Shopping smarter starts here · <a href="#how-it-works">How it works</a></span></div></div>
+  <div class="nav-wrap">
+    <div class="container nav">
+      <a class="brand" href="#top" aria-label="Daily Deals Zimbabwe home"><span class="brand-mark">D</span><span class="brand-name">DAILY DEALS<small>ZIMBABWE</small></span></a>
+      <nav class="nav-links" id="navLinks"><a href="#deals">Explore deals</a><a href="#categories">Categories</a><a href="#provinces">Browse provinces</a><a href="#how-it-works">How it works</a></nav>
+      <div class="nav-actions"><button class="btn btn-outline" id="savedNav">♡ Saved deals <span id="savedCount">0</span></button><button class="btn btn-gold" id="openSellerTop">List your deal</button><button class="menu-btn" id="menuBtn" aria-label="Open menu">☰</button></div>
+    </div>
+  </div>
+  <section class="hero" id="top">
+    <div class="container hero-grid">
+      <div><div class="eyebrow">Zimbabwe's deal discovery marketplace</div><h1>Find a better deal. Every day.</h1><p>Discover special offers from shops, restaurants and service providers across Zimbabwe. Compare, save your favourites and contact sellers directly.</p>
+        <div class="search-panel"><input id="searchInput" type="search" placeholder="Search phones, groceries, fashion..." aria-label="Search deals"><button class="btn btn-gold" id="searchBtn">Find deals</button></div>
+        <div class="hero-note">Explore offers by category, seller or province. New deals added by participating businesses.</div>
+      </div>
+      <div class="hero-visual"><div class="deal-stack"><div class="feature-deal"><div class="feature-top"><span>✨ DEAL SPOTLIGHT</span><span>DEMO OFFER</span></div><div class="feature-art">🛍️</div><h3>Something good is on offer</h3><p>Find useful products and services at special prices.</p><div class="price-row"><div><span class="price">Save more</span><span class="old-price">every day</span></div><span class="discount">SHOP SMART</span></div></div><div class="float-tag">🇿🇼 Local offers, one place</div></div></div>
+    </div>
+  </section>
+  <div class="trust-strip"><div class="container trust-grid"><div class="trust-item"><span class="trust-icon">⌕</span>Find offers in one place</div><div class="trust-item"><span class="trust-icon">♡</span>Save deals to revisit later</div><div class="trust-item"><span class="trust-icon">↗</span>Contact sellers directly</div></div></div>
+  <main class="container">
+    <section id="deals">
+      <div class="section-head"><div><div class="eyebrow" style="color:#8b6a19">Explore the marketplace</div><h2 id="dealHeading">Deals to explore</h2><p id="dealSubheading">Browse sample listings and try the filters.</p></div><button class="text-link" id="showAll">Clear filters →</button></div>
+      <div class="filters" id="categoryFilters" aria-label="Filter by category"></div>
+      <div class="toolbar"><label id="resultCount">Sample listings</label><div><select id="provinceFilter" aria-label="Filter by province"><option value="All provinces">All provinces</option></select></div></div>
+      <div class="deal-grid" id="dealGrid" aria-live="polite"></div>
+      <div class="demo-note"><strong>Prototype notice:</strong> The listings shown here are illustrative sample content to demonstrate the marketplace. They are not verified live promotions, and no purchase or seller contact is being processed yet.</div>
+    </section>
+    <section class="province-band" id="provinces"><h2>Deals from every corner of Zimbabwe</h2><p>Our launch plan covers all 10 provinces. Choose a province to explore the sample listings available in this prototype.</p><div class="province-list" id="provinceList"></div></section>
+    <section class="seller-cta" id="how-it-works"><div><h2>Have a deal to share?</h2><p>Own a shop, restaurant or service business? Put your offer in front of shoppers looking for value. Submit your business details and deal for review.</p></div><button class="btn btn-gold" id="openSellerBottom">I'm a business owner →</button></section>
+  </main>
+  <footer><div class="container"><div class="footer-grid"><div><a class="brand" href="#top"><span class="brand-mark">D</span><span class="brand-name">DAILY DEALS<small>ZIMBABWE</small></span></a><p>A deal discovery marketplace concept connecting shoppers with local businesses across Zimbabwe. Always check offer details and seller terms before purchasing.</p></div><div class="footer-links"><a href="#deals">Explore deals</a><a href="#provinces">Provinces</a><a href="#how-it-works">For businesses</a><a href="mailto:hello@dailydeals.co.zw">Contact (demo)</a></div></div><div class="copyright">© 2026 Daily Deals Zimbabwe · Prototype preview · Not yet a live shopping service</div></div></footer>
+</div>
+<div class="modal-backdrop" id="sellerModal" role="dialog" aria-modal="true" aria-labelledby="sellerTitle"><div class="modal"><div class="modal-head"><h2 id="sellerTitle">Submit a business deal</h2><button class="close" id="closeSeller" aria-label="Close">×</button></div><form id="sellerForm"><div class="form-grid"><div class="field"><label for="businessName">Business name *</label><input id="businessName" required placeholder="Your business"></div><div class="field"><label for="contactName">Contact person *</label><input id="contactName" required placeholder="Your name"></div><div class="field"><label for="businessPhone">WhatsApp / phone *</label><input id="businessPhone" required type="tel" placeholder="e.g. 077... "></div><div class="field"><label for="businessProvince">Province *</label><select id="businessProvince" required></select></div><div class="field full"><label for="dealTitle">Deal title *</label><input id="dealTitle" required placeholder="e.g. Weekend grocery special"></div><div class="field"><label for="dealCategory">Category *</label><select id="dealCategory" required></select></div><div class="field"><label for="dealPrice">Offer price / details *</label><input id="dealPrice" required placeholder="e.g. $10 or 15% off"></div><div class="field full"><label for="dealDescription">Offer details</label><textarea id="dealDescription" placeholder="What is included? When does the offer end?"></textarea></div></div><p class="form-hint">This is a design prototype. Submitting will only show a local confirmation on this screen; it will not send your details to Daily Deals Zimbabwe.</p><button class="btn btn-gold" type="submit">Submit for review</button></form></div></div>
+<div class="toast" id="toast" role="status"></div>
+<script>
+const provinces = ["Bulawayo","Harare","Manicaland","Mashonaland Central","Mashonaland East","Mashonaland West","Masvingo","Matabeleland North","Matabeleland South","Midlands"];
+const categories = ["All deals","Groceries","Electronics","Fashion","Food & dining","Home & living","Beauty & wellness","Services"];
+const deals = [
+ {id:1,title:"Weekly grocery basket",seller:"Sample Market Store",category:"Groceries",province:"Harare",price:"$18",old:"$22",emoji:"🛒",place:"Harare · Sample listing",description:"An example grocery bundle listing for the prototype."},
+ {id:2,title:"Wireless headphones",seller:"Demo Tech Hub",category:"Electronics",province:"Bulawayo",price:"$24",old:"$30",emoji:"🎧",place:"Bulawayo · Sample listing",description:"An example electronics promotion for the prototype."},
+ {id:3,title:"Everyday fashion picks",seller:"Example Style Shop",category:"Fashion",province:"Manicaland",price:"From $8",old:"",emoji:"👕",place:"Mutare · Sample listing",description:"An example clothing offer for the prototype."},
+ {id:4,title:"Family pizza special",seller:"Demo Pizza Corner",category:"Food & dining",province:"Mashonaland East",price:"$12",old:"$15",emoji:"🍕",place:"Marondera · Sample listing",description:"An example restaurant offer for the prototype."},
+ {id:5,title:"Kitchen essentials set",seller:"Sample Home Store",category:"Home & living",province:"Mashonaland West",price:"$19",old:"$25",emoji:"🍳",place:"Chinhoyi · Sample listing",description:"An example homeware offer for the prototype."},
+ {id:6,title:"Self-care bundle",seller:"Demo Beauty Studio",category:"Beauty & wellness",province:"Masvingo",price:"$15",old:"$20",emoji:"🧴",place:"Masvingo · Sample listing",description:"An example beauty and wellness offer for the prototype."},
+ {id:7,title:"Phone screen protection",seller:"Example Mobile Care",category:"Services",province:"Midlands",price:"$5",old:"$8",emoji:"📱",place:"Gweru · Sample listing",description:"An example service offer for the prototype."},
+ {id:8,title:"Bluetooth speaker",seller:"Sample Gadget Shop",category:"Electronics",province:"Matabeleland North",price:"$17",old:"$21",emoji:"🔊",place:"Victoria Falls · Sample listing",description:"An example gadget promotion for the prototype."},
+ {id:9,title:"Fresh produce box",seller:"Demo Farm Basket",category:"Groceries",province:"Matabeleland South",price:"$9",old:"$12",emoji:"🥬",place:"Gwanda · Sample listing",description:"An example fresh produce offer for the prototype."},
+ {id:10,title:"Weekend family meal",seller:"Example Food Spot",category:"Food & dining",province:"Mashonaland Central",price:"$14",old:"$18",emoji:"🍲",place:"Bindura · Sample listing",description:"An example food offer for the prototype."}
+];
+let activeCategory = "All deals";
+let activeProvince = "All provinces";
+let searchTerm = "";
+let saved = new Set();
+const $ = id => document.getElementById(id);
+function populateSelect(select, items, firstLabel) { select.innerHTML = `<option value="">${firstLabel}</option>` + items.map(x=>`<option value="${x}">${x}</option>`).join(""); }
+populateSelect($("provinceFilter"), provinces, "All provinces");
+populateSelect($("businessProvince"), provinces, "Choose province");
+populateSelect($("dealCategory"), categories.slice(1), "Choose category");
+function renderCategories(){ $("categoryFilters").innerHTML = categories.map(c=>`<button class="chip ${c===activeCategory?'active':''}" data-category="${c}">${c}</button>`).join(""); }
+function renderProvinces(){ $("provinceList").innerHTML = provinces.map(p=>`<button class="province-pill" data-province="${p}">${p}</button>`).join(""); }
+function renderDeals(){
+ const list = deals.filter(d=>(activeCategory==="All deals"||d.category===activeCategory)&&(activeProvince==="All provinces"||d.province===activeProvince)&&(`${d.title} ${d.seller} ${d.category} ${d.province}`.toLowerCase().includes(searchTerm)));
+ $("resultCount").textContent = `${list.length} sample ${list.length===1?'listing':'listings'}`;
+ $("dealHeading").textContent = activeCategory==="All deals"?"Deals to explore":activeCategory;
+ $("dealSubheading").textContent = searchTerm?`Showing sample results for “${searchTerm}”.`:"Browse sample listings and try the filters.";
+ $("dealGrid").innerHTML = list.length ? list.map(d=>`<article class="deal-card"><div class="deal-image"><span class="category-label">${d.category}</span><span>${d.emoji}</span><button class="heart ${saved.has(d.id)?'saved':''}" data-save="${d.id}" aria-label="${saved.has(d.id)?'Remove saved deal':'Save deal'}">${saved.has(d.id)?'♥':'♡'}</button></div><div class="deal-content"><div class="seller">${d.seller}</div><h3>${d.title}</h3><div class="location">⌖ ${d.place}</div><div class="deal-price-line"><span class="deal-price">${d.price}</span>${d.old?`<span class="deal-old">${d.old}</span>`:''}</div><div class="deal-bottom"><span>Illustrative offer</span><button class="view-deal" data-view="${d.id}">View details →</button></div></div></article>`).join("") : `<div class="empty"><div style="font-size:30px;margin-bottom:8px">⌕</div><strong>No sample listings found</strong><p>Try another category, province or search term.</p><button class="btn btn-gold" id="resetEmpty">Clear filters</button></div>`;
+ $("savedCount").textContent = saved.size;
+}
+function toast(message){const t=$("toast");t.textContent=message;t.classList.add("show");clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>t.classList.remove("show"),2600);}
+function resetFilters(){activeCategory="All deals";activeProvince="All provinces";searchTerm="";$("provinceFilter").value="All provinces";$("searchInput").value="";renderCategories();renderDeals();}
+function openSeller(){ $("sellerModal").classList.add("open"); }
+function closeSeller(){ $("sellerModal").classList.remove("open"); }
+renderCategories();renderProvinces();renderDeals();
+$("categoryFilters").addEventListener("click",e=>{const b=e.target.closest("[data-category]");if(!b)return;activeCategory=b.dataset.category;renderCategories();renderDeals();});
+$("provinceFilter").addEventListener("change",e=>{activeProvince=e.target.value||"All provinces";renderDeals();});
+$("provinceList").addEventListener("click",e=>{const b=e.target.closest("[data-province]");if(!b)return;activeProvince=b.dataset.province;$("provinceFilter").value=activeProvince;renderDeals();$("deals").scrollIntoView({behavior:"smooth"});});
+function runSearch(){searchTerm=$("searchInput").value.trim().toLowerCase();renderDeals();$("deals").scrollIntoView({behavior:"smooth"});}
+$("searchBtn").addEventListener("click",runSearch);$("searchInput").addEventListener("keydown",e=>{if(e.key==="Enter")runSearch();});
+$("showAll").addEventListener("click",resetFilters);$("savedNav").addEventListener("click",()=>{const ids=[...saved];if(!ids.length){toast("You have no saved deals yet. Tap ♡ on a deal to save it.");return;}activeCategory="All deals";activeProvince="All provinces";searchTerm="";$("provinceFilter").value="All provinces";$("searchInput").value="";$("dealHeading").textContent="Your saved deals";const list=deals.filter(d=>saved.has(d.id));$("resultCount").textContent=`${list.length} saved sample listings`;$("dealGrid").innerHTML=list.map(d=>`<article class="deal-card"><div class="deal-image"><span class="category-label">${d.category}</span><span>${d.emoji}</span><button class="heart saved" data-save="${d.id}" aria-label="Remove saved deal">♥</button></div><div class="deal-content"><div class="seller">${d.seller}</div><h3>${d.title}</h3><div class="location">⌖ ${d.place}</div><div class="deal-price-line"><span class="deal-price">${d.price}</span></div><div class="deal-bottom"><span>Saved listing</span><button class="view-deal" data-view="${d.id}">View details →</button></div></div></article>`).join("");$("deals").scrollIntoView({behavior:"smooth"});});
+$("dealGrid").addEventListener("click",e=>{const s=e.target.closest("[data-save]");if(s){const id=Number(s.dataset.save);saved.has(id)?saved.delete(id):saved.add(id);renderDeals();toast(saved.has(id)?"Deal saved to your favourites.":"Deal removed from saved items.");return;}const v=e.target.closest("[data-view]");if(v){const d=deals.find(x=>x.id===Number(v.dataset.view));if(d)toast(`${d.title} — ${d.description}`);return;}if(e.target.id==="resetEmpty")resetFilters();});
+$("openSellerTop").addEventListener("click",openSeller);$("openSellerBottom").addEventListener("click",openSeller);$("closeSeller").addEventListener("click",closeSeller);$("sellerModal").addEventListener("click",e=>{if(e.target.id==="sellerModal")closeSeller();});
+$("sellerForm").addEventListener("submit",e=>{e.preventDefault();const name=$("businessName").value.trim();closeSeller();e.target.reset();toast(`Thanks${name?`, ${name}`:''}! This demo captured no data. Live submissions will be enabled after backend setup.`);});
+$("menuBtn").addEventListener("click",()=>$("navLinks").classList.toggle("mobile-open"));
+$("navLinks").addEventListener("click",e=>{if(e.target.tagName==="A")$("navLinks").classList.remove("mobile-open");});
+</script>
+</body>
+</html>
